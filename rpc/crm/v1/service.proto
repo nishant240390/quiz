@@ -1,0 +1,24 @@
+
+syntax = "proto3";
+
+package rzp.quiz.crm.v1;
+
+option go_package = "quiz/crm/v1;crmv1";
+
+
+message AddQuestionRequest {
+  string statement = 1;
+  string option1 = 2;
+  string option2 = 3;
+  string option3 = 4;
+  string option4 = 5;
+  int32  answer = 6;
+}
+
+message AddQuestionResponse {
+  bool success = 1;
+}
+
+service CrmService {
+  rpc AddQuestion(AddQuestionRequest) returns (AddQuestionResponse);
+}
