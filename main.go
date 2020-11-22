@@ -17,7 +17,9 @@ func main() {
 	db.MigrateAll(enitities)
 	fmt.Println("entities added in db ")
 	
-	server := &crm.Server{}
+	repo := crm.Repo{ Db: db.Db}
+	core := crm.Core{Repo:&repo}
+	server := &crm.Server{ Core: &core}
 	twirpHandler := crmv1.NewCrmServiceServer(server, nil)
 	http.ListenAndServe( ":8009", twirpHandler)
 }

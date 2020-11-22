@@ -1,15 +1,16 @@
 package crm
 
 import (
-	"fmt"
+	`github.com/jinzhu/gorm`
 )
 
 type IRepo interface {
-	AddQuestion()
+	AddQuestion(q Question)
 }
 type Repo struct {
+	Db *gorm.DB
 }
 
-func (r *Repo) AddQuestion() {
-	fmt.Println("add questions")
+func (r *Repo) AddQuestion(q Question) {
+	r.Db.Create(&q)
 }

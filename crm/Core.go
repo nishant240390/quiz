@@ -5,9 +5,9 @@ type ICore interface {
 }
 
 type Core struct {
-	repo IRepo
+	Repo IRepo
 }
 
 func (c *Core) AddQuestion(q Question) {
-	c.repo.AddQuestion()
+	c.Repo.AddQuestion(q)
 }

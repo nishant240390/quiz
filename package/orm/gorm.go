@@ -12,7 +12,7 @@ const (
 )
 
 type Database struct {
-	db *gorm.DB
+	Db *gorm.DB
 }
 
 func (d *Database) InitGorm() {
@@ -21,12 +21,12 @@ func (d *Database) InitGorm() {
 	if err != nil {
 		fmt.Println("error while opening db ", err)
 	}
-	d.db = db
+	d.Db = db
 }
 
 func (d *Database) MigrateAll(entities []interface{}) {
 	for _, v := range entities {
-		d.db.DropTableIfExists(v)
-		d.db.AutoMigrate(v)
+		d.Db.DropTableIfExists(v)
+		d.Db.AutoMigrate(v)
 	}
 }
