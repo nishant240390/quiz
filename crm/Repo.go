@@ -1,7 +1,7 @@
 package crm
 
 import (
-	`github.com/jinzhu/gorm`
+	"github.com/jinzhu/gorm"
 )
 
 type IRepo interface {

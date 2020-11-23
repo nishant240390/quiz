@@ -23,10 +23,3 @@ func (d *Database) InitGorm() {
 	}
 	d.Db = db
 }
-
-func (d *Database) MigrateAll(entities []interface{}) {
-	for _, v := range entities {
-		d.Db.DropTableIfExists(v)
-		d.Db.AutoMigrate(v)
-	}
-}
