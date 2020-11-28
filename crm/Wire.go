@@ -19,6 +19,6 @@ func InitialiseCore() (Core, error) {
 }
 
 func InitlaiseRepo() (Repo, error) {
-	wire.Build(orm.InitGorm, provideRepo)
+	wire.Build(orm.InitialiseDb, provideRepo)
 	return Repo{}, nil
 }
