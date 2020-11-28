@@ -15,11 +15,13 @@ type Database struct {
 	Db *gorm.DB
 }
 
-func (d *Database) InitGorm() {
+func InitGorm() Database {
+	db := Database{}
 	path := fmt.Sprintf(PostgresConnectionDSNFormat, "127.0.0.1", 5432, "quiz", "disable", "nishantagarwal", " ")
-	db, err := gorm.Open("postgres", path)
+	dbInstance, err := gorm.Open("postgres", path)
 	if err != nil {
 		fmt.Println("error while opening db ", err)
 	}
-	d.Db = db
+	db.Db = dbInstance
+	return db
 }

@@ -15,8 +15,7 @@ func init() {
 
 // Up is executed when this migration is applied
 func Up_20201124014321(txn *sql.Tx) error {
-	db := orm.Database{}
-	db.InitGorm()
+	db := orm.InitGorm()
 	db.Db.AutoMigrate(&crm.Question{})
 	db.Db.Close()
 	return nil
@@ -24,8 +23,7 @@ func Up_20201124014321(txn *sql.Tx) error {
 
 // Down is executed when this migration is rolled back
 func Down_20201124014321(txn *sql.Tx) error {
-	db := orm.Database{}
-	db.InitGorm()
+	db := orm.InitGorm()
 	db.Db.DropTableIfExists(&crm.Question{})
 	db.Db.Close()
 	return nil
