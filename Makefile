@@ -10,6 +10,12 @@ PROTOC_GEN_GO_VERSION := v1.4.2
 PROTOC_GEN_TWIRP_VERSION := v5.10.1
 
 
+MIGRATION_OUT       := "bin/migration"
+MIGRATION_MAIN_FILE := "cmd/main.go"
+
+UNAME_OS=$(shell go env GOOS)
+UNAME_ARCH=$(shell go env GOARCH)
+
 API_OUT := "bin/"
 
 .PHONY: clean
@@ -31,6 +37,18 @@ deps:
 
 .PHONY: deps
 prebuild: deps
+
+.PHONY: build-migration
+build-migration:
+	@CGO_ENABLED=0 GOOS=$(UNAME_OS) GOARCH=$(UNAME_ARCH) go build -i -v -o $(MIGRATION_OUT) $(MIGRATION_MAIN_FILE)
+
+.PHONY: run-migration-up
+run-migration-up:
+	 go run cmd/main.go up
+
+.PHONY: run-migration-down
+run-migration-down:
+	 go run cmd/main.go down
 
 .PHONY: proto-generate
 proto-generate:

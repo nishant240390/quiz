@@ -6,5 +6,5 @@ import (
 )
 
 type Database struct {
-	Db   *gorm.DB
+	Db *gorm.DB
 }
