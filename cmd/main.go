@@ -15,7 +15,7 @@ var (
 )
 
 func main() {
-	db := orm.InitGorm()
+	db := orm.InitialiseDb()
 	arguments := []string{}
 
 	err := goose.Run("up", db.Db.DB(), dir, arguments...)
