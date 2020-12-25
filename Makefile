@@ -20,12 +20,7 @@ clean:
 .PHONY: deps
 deps:
 	@echo "\n fetching dependencies \n"
-	@go get google.golang.org/grpc
-	@go get github.com/uber/prototool/cmd/prototool
-	@go get github.com/golang/protobuf/protoc-gen-go
-	@go get github.com/twitchtv/twirp/protoc-gen-twirp
-	@go get github.com/bykof/go-plantuml
-	@go get github.com/google/wire/cmd/wire
+		@go mod download
 	@echo  "\n fetching dependencies completed \n"
 
 
@@ -40,11 +35,13 @@ run-migration-down:
 .PHONY: proto-generate
 proto-generate:
 	@protoc --proto_path=$GOPATH/src:. --twirp_out=. --go_out=. proto/crm/v1/service.proto
+	@echo  "\n generating proto completed \n"
 
 .PHONY: wire-generate
 wire-generate:
-	@wire ${GOPATH}/src/github.com/razorpay/quiz/crm
-	@wire ${GOPATH}/src/github.com/razorpay/quiz/package/orm
+	@wire github.com/razorpay/quiz/crm
+	@wire github.com/razorpay/quiz/package/orm
+	@echo  "\n generating wire dependencies completed \n"
 
 .PHONY: allowAll
 allowAll:

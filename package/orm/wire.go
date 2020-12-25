@@ -1,4 +1,4 @@
-// +build wireinject
+//+build wireinject
 
 package orm
 
@@ -7,6 +7,7 @@ import (
 )
 
 func InitialiseDb() Database {
+	
 	wire.Build(InitialiseConfig, providerGorm)
 	return Database{}
 }
