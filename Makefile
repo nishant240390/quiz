@@ -1,4 +1,6 @@
 
+PROTO_ROOT := "proto/"
+
 RPC_ROOT  := "quiz/"
 
 PROTOTOOL_VERSION := v1.9.0
@@ -20,7 +22,7 @@ clean:
 .PHONY: deps
 deps:
 	@echo "\n fetching dependencies \n"
-		@go mod download
+	@go mod download
 	@echo  "\n fetching dependencies completed \n"
 
 
