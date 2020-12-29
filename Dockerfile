@@ -30,6 +30,8 @@ ADD . /src
 
 RUN make deps
 
+RUN make run-migration-up
+
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
 RUN pwd

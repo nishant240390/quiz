@@ -14,12 +14,12 @@ func InitialiseDb() Database {
 
 func InitialiseConfig() config {
 	wire.Build(wire.Value(config{
-		Url:      "127.0.0.1",
+		Url:      "192.168.0.3",
 		Port:     5432,
-		Dbname:   "quiz",
+		Dbname:   "fullstack_api",
 		Ssl:      "disable",
-		User:     "nishantagarwal",
-		Password: " ",
+		User:     "steven",
+		Password: "password",
 	}))
 	return config{}
 }
