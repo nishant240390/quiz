@@ -28,7 +28,7 @@ RUN apk add --update --no-cache --repository https://dl-4.alpinelinux.org/alpine
 
 ADD . /src
 
-RUN make deps
+RUN CGO_ENABLED=0 GOOS=linux make wire-generate-docker
 
 WORKDIR /src/main
 

@@ -23,6 +23,7 @@ clean:
 deps:
 	@echo "\n fetching dependencies \n"
 	@go mod download
+	@go get github.com/google/wire/cmd/wire
 	@echo  "\n fetching dependencies completed \n"
 
 
@@ -40,10 +41,17 @@ proto-generate:
 	@echo  "\n generating proto completed \n"
 
 .PHONY: wire-generate
-wire-generate:
+wire-generate: deps
 	@wire github.com/razorpay/quiz/crm
 	@wire github.com/razorpay/quiz/package/orm
 	@echo  "\n generating wire dependencies completed \n"
+
+.PHONY: wire-generate-docker
+wire-generate-docker: deps
+	@wire ./crm
+	@wire ./package/orm
+	@echo  "\n generating wire dependencies completed \n"
+
 
 .PHONY: allowAll
 allowAll:

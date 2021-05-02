@@ -13,9 +13,13 @@ RUN mkdir /src
 
 ADD . /src
 
-WORKDIR /src/cmd
-
 RUN apk add --update --no-cache --repository https://dl-4.alpinelinux.org/alpine/latest-stable/community/ make git
+
+WORKDIR /src
+
+RUN CGO_ENABLED=0 GOOS=linux make wire-generate-docker
+
+WORKDIR /src/cmd
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./main .
 
