@@ -30,19 +30,11 @@ ADD . /src
 
 RUN make deps
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+WORKDIR /src/main
 
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./main .
 
-WORKDIR /root/
-
-# Copy the Pre-built binary file from the previous stage. Also copied the .env file
-COPY --from=builder /src/main .
-COPY --from=builder /src/.env .
-
-# Expose port 8080 to the outside world
 EXPOSE 8080
 
-#Command to run the executable
 ENTRYPOINT ["./main"]
+

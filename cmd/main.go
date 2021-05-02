@@ -12,10 +12,11 @@ import (
 )
 
 var (
-	dir = "db/migrations"
+	dir = "../db/migrations"
 )
 
 func main() {
+	fmt.Print("\n init migration \n")
 	db := orm.InitialiseDb()
 	arguments := []string{}
 	fmt.Print("\n running migration \n")
@@ -28,4 +29,5 @@ func main() {
 		fmt.Print("migration could not complete", err)
 		return
 	}
+	fmt.Print("\n completed migration \n")
 }

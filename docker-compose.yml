@@ -1,6 +1,6 @@
   version: '3'
   services:
-    fullstack-postgres:
+    full_db_postgres:
       image: postgres:latest
       container_name: full_db_postgres
       environment:
@@ -11,17 +11,18 @@
       ports:
         - '5432:5432'
       networks:
-        - fullstack
+        - quiz
+
     migration:
       container_name: quiz-migration
       build:
         context: ./
         dockerfile: Dockerfile-migration
       restart: on-failure
-      depends_on:
-        - fullstack-postgres
+      links:
+        - full_db_postgres
       networks:
-        - fullstack
+        - quiz
     app:
       container_name: quiz
       build:
@@ -32,23 +33,9 @@
       restart: on-failure
       depends_on:
         - migration
-        - fullstack-postgres
       networks:
-        - fullstack
-    pgadmin:
-      image: dpage/pgadmin4
-      container_name: pgadmin_container
-      environment:
-        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      depends_on:
-        - fullstack-postgres
-      ports:
-        - "5050:80"
-      networks:
-        - fullstack
-      restart: unless-stopped
+        - quiz
 
   networks:
-    fullstack:
+    quiz:
       driver: bridge

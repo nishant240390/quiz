@@ -7,19 +7,18 @@ import (
 )
 
 func InitialiseDb() Database {
-	
 	wire.Build(InitialiseConfig, providerGorm)
 	return Database{}
 }
 
 func InitialiseConfig() config {
 	wire.Build(wire.Value(config{
-		Url:      "192.168.0.2",
+		Url:      "full_db_postgres",
 		Port:     5432,
-		Dbname:   "fullstack_api",
+		Dbname:   "quiz",
 		Ssl:      "disable",
-		User:     "steven",
-		Password: "password",
+		User:     "postgres",
+		Password: "123",
 	}))
 	return config{}
 }

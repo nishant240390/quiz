@@ -1,7 +1,7 @@
 
 ######################################
 #
-# Compliation build stage
+# Compilation build stage
 #
 ######################################
 
@@ -13,16 +13,10 @@ RUN mkdir /src
 
 ADD . /src
 
-WORKDIR /src
+WORKDIR /src/cmd
 
 RUN apk add --update --no-cache --repository https://dl-4.alpinelinux.org/alpine/latest-stable/community/ make git
 
-RUN make deps
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./main .
 
-
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o cmd/main .
-
-RUN ls
-
-ENTRYPOINT ["cmd/main", "up"]
-
+ENTRYPOINT ["./main", "up"]
