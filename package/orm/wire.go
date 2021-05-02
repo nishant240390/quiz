@@ -1,4 +1,4 @@
-// +build wireinject
+//+build wireinject
 
 package orm
 
@@ -13,12 +13,12 @@ func InitialiseDb() Database {
 
 func InitialiseConfig() config {
 	wire.Build(wire.Value(config{
-		Url:      "127.0.0.1",
+		Url:      "full_db_postgres",
 		Port:     5432,
 		Dbname:   "quiz",
 		Ssl:      "disable",
-		User:     "nishantagarwal",
-		Password: " ",
+		User:     "postgres",
+		Password: "123",
 	}))
 	return config{}
 }

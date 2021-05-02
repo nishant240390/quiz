@@ -10,5 +10,5 @@ import (
 func main() {
 	server, _ := crm.InitialiseServer()
 	twirpHandler := crmv1.NewCrmServiceServer(&server, nil)
-	http.ListenAndServe(":8009", twirpHandler)
+	http.ListenAndServe(":8080", twirpHandler)
 }

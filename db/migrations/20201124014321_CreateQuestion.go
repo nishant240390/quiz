@@ -5,7 +5,8 @@ import (
 
 	"github.com/pressly/goose"
 
-	"github.com/razorpay/quiz/crm"
+	crm "github.com/razorpay/quiz/crm"
+
 	"github.com/razorpay/quiz/package/orm"
 )
 

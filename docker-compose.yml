@@ -1,0 +1,41 @@
+  version: '3'
+  services:
+    full_db_postgres:
+      image: postgres:latest
+      container_name: full_db_postgres
+      environment:
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PASSWORD}
+        - POSTGRES_DB=${DB_NAME}
+        - DATABASE_HOST=${DB_HOST}
+      ports:
+        - '5432:5432'
+      networks:
+        - quiz
+
+    migration:
+      container_name: quiz-migration
+      build:
+        context: ./
+        dockerfile: Dockerfile-migration
+      restart: on-failure
+      links:
+        - full_db_postgres
+      networks:
+        - quiz
+    app:
+      container_name: quiz
+      build:
+        context: ./
+        dockerfile: Dockerfile-app
+      ports:
+        - 8080:8080
+      restart: on-failure
+      depends_on:
+        - migration
+      networks:
+        - quiz
+
+  networks:
+    quiz:
+      driver: bridge
