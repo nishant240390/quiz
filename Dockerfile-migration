@@ -5,19 +5,23 @@
 #
 ######################################
 
-FROM golang:1.13-alpine3.11 as builder
-
-RUN apk update && apk add --no-cache git
+FROM golang as builder
 
 RUN mkdir /src
 
 ADD . /src
 
-RUN apk add --update --no-cache --repository https://dl-4.alpinelinux.org/alpine/latest-stable/community/ make git
 
 WORKDIR /src
 
-RUN CGO_ENABLED=0 GOOS=linux make wire-generate-docker
+ENV PROTOC_ZIP=protoc-3.13.0-linux-x86_64.zip
+RUN apt-get update && apt-get install -y unzip
+RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.13.0/$PROTOC_ZIP \
+    && unzip -o $PROTOC_ZIP -d /usr/local bin/protoc \
+    && unzip -o $PROTOC_ZIP -d /usr/local 'include/*' \
+    && rm -f $PROTOC_ZIP
+
+RUN CGO_ENABLED=0 GOOS=linux make buildAllDockerMigration
 
 WORKDIR /src/cmd
 
