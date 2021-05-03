@@ -1,7 +1,7 @@
 
 ######################################
 #
-# Compilation build stage
+# pulling image
 #
 ######################################
 
@@ -11,8 +11,13 @@ RUN mkdir /src
 
 ADD . /src
 
-
 WORKDIR /src
+
+######################################
+#
+# downloading and installing protoc image
+#
+######################################
 
 ENV PROTOC_ZIP=protoc-3.13.0-linux-x86_64.zip
 RUN apt-get update && apt-get install -y unzip
@@ -21,10 +26,28 @@ RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.13
     && unzip -o $PROTOC_ZIP -d /usr/local 'include/*' \
     && rm -f $PROTOC_ZIP
 
+######################################
+#
+# generating proto ,wire dependencies
+#
+######################################
+
 RUN CGO_ENABLED=0 GOOS=linux make buildAllDockerMigration
 
 WORKDIR /src/cmd
 
+######################################
+#
+# building executable
+#
+######################################
+
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./main .
+
+######################################
+#
+# running migration
+#
+######################################
 
 ENTRYPOINT ["./main", "up"]

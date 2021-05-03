@@ -26,12 +26,11 @@ deps:
 	@go get github.com/google/wire/cmd/wire
 	@go get -u google.golang.org/protobuf/cmd/protoc-gen-go
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go
-
 	@go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+	@go get -u github.com/twitchtv/twirp/protoc-gen-twirp
 	@echo  "\n fetching dependencies completed \n"
 
-	@go get -u github.com/twitchtv/twirp/protoc-gen-twirp
 
 .PHONY: run-migration-up
 run-migration-up:
@@ -40,17 +39,6 @@ run-migration-up:
 .PHONY: run-migration-down
 run-migration-down:
 	@go run cmd/main.go down
-
-.PHONY: proto-generate
-proto-generate: deps
-	@protoc --proto_path=$GOPATH/src:. --twirp_out=. --go_out=. proto/crm/v1/service.proto
-	@echo  "\n generating proto completed \n"
-
-.PHONY: wire-generate
-wire-generate: deps
-	@wire github.com/razorpay/quiz/crm
-	@wire github.com/razorpay/quiz/package/orm
-	@echo  "\n generating wire dependencies completed \n"
 
 .PHONY: proto-generate-docker
 proto-generate-docker:
@@ -65,9 +53,6 @@ wire-generate-docker:
 	@wire ./package/orm
 	@echo  "\n generating wire dependencies completed \n"
 
-.PHONY: allowAll
-allowAll:
-	@sudo chmod -R 777 .
 
 .PHONY: buildAllDockerApi
 buildAllDockerApi: deps proto-generate-docker wire-generate-docker
@@ -75,16 +60,31 @@ buildAllDockerApi: deps proto-generate-docker wire-generate-docker
 .PHONY: buildAllDockerMigration
 buildAllDockerMigration: deps proto-generate-docker wire-generate-docker
 
-.PHONY: buildAll
-buildAll: allowAll clean  buildAllDockerApi
+#.PHONY: proto-generate
+#proto-generate: deps
+#	@protoc --proto_path=$GOPATH/src:. --twirp_out=. --go_out=. proto/crm/v1/service.proto
+#	@echo  "\n generating proto completed \n"
+#
+#.PHONY: wire-generate
+#wire-generate: deps
+#	@wire github.com/razorpay/quiz/crm
+#	@wire github.com/razorpay/quiz/package/orm
+#	@echo  "\n generating wire dependencies completed \n"
 
-.PHONY: build
-build: buildAll
-	@go build -o bin/main main/main.go
+#.PHONY: allowAll
+#allowAll:
+#	@sudo chmod -R 777 .
 
-.PHONY: run
-run:
-	@go run main/main
-
-.PHONY: quiz
-quiz:build run
+#.PHONY: buildAll
+#buildAll: allowAll clean  buildAllDockerApi
+#
+#.PHONY: build
+#build: buildAll
+#	@go build -o bin/main main/main.go
+#
+#.PHONY: run
+#run:
+#	@go run ./bin/main
+#
+#.PHONY: quiz
+#quiz:build run
