@@ -24,7 +24,7 @@
       networks:
         - quiz
     app:
-      container_name: quiz
+      container_name: app
       build:
         context: ./
         dockerfile: Dockerfile-app
@@ -33,6 +33,19 @@
       restart: on-failure
       depends_on:
         - migration
+      networks:
+        - quiz
+
+    nginx:
+      build:
+        context: ./
+        dockerfile: Dockerfile-nginx
+      ports:
+        - "80:80"
+      depends_on:
+        - app
+      links:
+        - app
       networks:
         - quiz
 
